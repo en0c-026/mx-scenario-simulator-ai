@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { useAppStore } from '../store/app'
+import { useAppStore } from '@/store/app'
 import { ScenarioItem } from '@/components';
 const store = useAppStore()
 </script>
