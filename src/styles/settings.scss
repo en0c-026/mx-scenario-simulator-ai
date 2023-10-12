@@ -1,0 +1,14 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://vuetifyjs.com/features/sass-variables/`
+@use 'vuetify/settings' with (
+  $expansion-panel-title-font-size: 1rem,
+  $expansion-panel-title-min-height: 56px,
+  $expansion-panel-active-title-min-height: 56px,
+  $expansion-panel-text-padding: 8px,
+  $expansion-panel-active-margin: 6px,
+);
