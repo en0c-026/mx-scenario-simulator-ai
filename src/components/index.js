@@ -7,6 +7,9 @@ import AccountForm from './AccountForm.vue'
 import TransactionForm from './TransactionForm.vue'
 import ExpectForm from './ExpectForm.vue'
 import LogForm from './LogForm.vue'
+import Sidenav from './layout/Sidenav.vue'
+import Header from './layout/Header.vue'
+import Layout from './layout/Layout.vue'
 
 export {
   ScenarioItem,
@@ -16,6 +19,9 @@ export {
   ScenarioManager,
   AccountForm,
   TransactionForm,
+  Sidenav,
+  Header,
+  Layout,
   ExpectForm,
-    LogForm
+  LogForm
 }
