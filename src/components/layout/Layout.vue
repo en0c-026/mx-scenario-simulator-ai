@@ -1,5 +1,8 @@
 <template>
-  <v-layout class="rounded rounded-md">
+  <v-sheet v-if="store.loading" height="100vh" class="w-100 d-flex overflow-none" color="grey-lighten-2">
+    <v-progress-circular class="ma-auto" size="48" indeterminate></v-progress-circular>
+  </v-sheet>
+  <v-layout v-else class="rounded rounded-md">
     <Header />
     <v-navigation-drawer permanent>
       <Sidenav />
@@ -11,6 +14,7 @@
 </template>
 
 <script setup>
-import Sidenav from './Sidenav.vue'
-import Header from './Header.vue'
+import { Sidenav, Header } from '@/components'
+import { useAppStore } from "@/store/app";
+const store = useAppStore();
 </script>
