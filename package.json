@@ -9,10 +9,14 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-markdown": "^6.2.2",
+    "@codemirror/lang-python": "^6.1.3",
     "@codemirror/lang-rust": "^6.0.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@mdi/font": "7.0.96",
+    "axios": "^1.5.1",
     "codemirror": "^6.0.1",
     "core-js": "^3.29.0",
     "pinia": "^2.0.0",
