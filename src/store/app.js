@@ -1,46 +1,10 @@
-import { onMounted, ref, toRaw, watch } from 'vue'
+import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue'
 import { Scenario, FileAPI, IDGenerator, FileModel } from '@/utils'
 import { defineStore } from 'pinia'
+
 const client = new FileAPI()
-function processFiles(fileList) {
-  const transformedFiles = [];
-  for (const file of fileList) {
-    const fileModel = new FileModel(file);
-    transformedFiles.push(fileModel);
-
-    if (file.is_folder && file.content.length > 0) {
-      fileModel.content = processFiles(file.content);
-    }
-  }
-  return transformedFiles;
-}
-
 const idGenerator = new IDGenerator();
 const projectKey = "mx_scenario_sim_project_id"
-
-const createProjectIfNotExists = async () => {
-  let projectId = idGenerator.get(projectKey)
-  if (projectId) {
-    return projectId
-  }
-  projectId = idGenerator.generate();
-  try {
-    const projectExists = await client.checkId(projectId);
-
-    if (projectExists) {
-      console.log(`Project with ID ${projectId} already exists.`);
-      return createProjectIfNotExists(); // Llamar recursivamente para generar un nuevo ID
-    }
-
-    // Si el proyecto no existe, créalo
-    await client.createNewProject(projectId);
-    console.log(`Project with ID ${projectId} created.`);
-    return projectId;
-  } catch (error) {
-    console.error("Error checking project ID:", error);
-    return null; // Manejo de errores
-  }
-};
 
 export const useAppStore = defineStore('app', () => {
   const files = ref([])
@@ -50,7 +14,7 @@ export const useAppStore = defineStore('app', () => {
   const rootPath = ref(null)
   const selectedPath = ref(null)
   const selectedFile = ref(null)
-
+  const logs = ref([])
   onMounted(async () => {
     const projectId = await createProjectIfNotExists();
     if (projectId) {
@@ -62,6 +26,7 @@ export const useAppStore = defineStore('app', () => {
       const serverFiles = await client.getFiles(projectId)
       files.value = processFiles(serverFiles)
       console.log(files.value);
+      client.setupEventListeners(addLog)
     } else {
       // Manejar el caso de error
     }
@@ -69,7 +34,9 @@ export const useAppStore = defineStore('app', () => {
     loading.value = false
 
   })
-
+  onUnmounted(() => {
+    client.removeEventListeners()
+  })
   const selectPath = (path) => {
     selectedPath.value = path
   }
@@ -86,17 +53,14 @@ export const useAppStore = defineStore('app', () => {
     tempFile.value = new FileModel(isFolder)
     files.value.push(tempFile)
   }
-
   const renameFile = async (filePath, newFilename) => {
     await client.renameFile(filePath, newFilename)
     await refetchFiles()
   }
-
   const removeFile = async (path, fileName) => {
     await client.deleteFile(path, fileName)
     await refetchFiles()
   }
-
   const newFolder = async () => {
     try {
       await client.createFolder(selectedPath.value, `new-folder-${files.value.length + 1}`)
@@ -105,7 +69,6 @@ export const useAppStore = defineStore('app', () => {
 
     }
   }
-
   const newFile = async (extension) => {
     console.log('arre', extension);
     try {
@@ -123,8 +86,13 @@ export const useAppStore = defineStore('app', () => {
     } catch (error) {
     }
   }
-
-
+  const executeCommand = async (command) => {
+    await client.executeCommand(command, rootPath.value)
+  }
+  const addLog = (m) => {
+    logs.value.push(m)
+  }
+  const clearLogs = () => logs.value = []
   // -------------------------------------
   const selectedScenario = ref(undefined)
   const scenarios = ref([])
@@ -160,6 +128,8 @@ export const useAppStore = defineStore('app', () => {
     scenarios,
     newFolder,
     addFile,
+    logs,
+    clearLogs,
     selectFile,
     selectedFile,
     loading,
@@ -169,6 +139,7 @@ export const useAppStore = defineStore('app', () => {
     selectPath,
     newFile,
     renameFile,
+    executeCommand,
     //--------
     addScenario,
     editScenarioName,
@@ -178,3 +149,42 @@ export const useAppStore = defineStore('app', () => {
     resetScenarios,
   }
 })
+
+function processFiles(fileList) {
+  const transformedFiles = [];
+  for (const file of fileList) {
+    const fileModel = new FileModel(file);
+    transformedFiles.push(fileModel);
+
+    if (file.is_folder && file.content.length > 0) {
+      fileModel.content = processFiles(file.content);
+    }
+  }
+  return transformedFiles;
+}
+
+
+
+const createProjectIfNotExists = async () => {
+  let projectId = idGenerator.get(projectKey)
+  if (projectId) {
+    return projectId
+  }
+  projectId = idGenerator.generate();
+  try {
+    const projectExists = await client.checkId(projectId);
+
+    if (projectExists) {
+      console.log(`Project with ID ${projectId} already exists.`);
+      return createProjectIfNotExists(); // Llamar recursivamente para generar un nuevo ID
+    }
+
+    // Si el proyecto no existe, créalo
+    await client.createNewProject(projectId);
+    console.log(`Project with ID ${projectId} created.`);
+    return projectId;
+  } catch (error) {
+    console.error("Error checking project ID:", error);
+    return null; // Manejo de errores
+  }
+};

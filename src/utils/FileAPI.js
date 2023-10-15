@@ -1,5 +1,8 @@
 // FileAPI.js
 import axios from "axios";
+    import io from 'socket.io-client';
+
+
 const getMimeType = (extension) => {
   const mimeTypes = {
     json: 'application/json',
@@ -20,6 +23,7 @@ const createFile = (filename, data, extension) => {
 export default class FileAPI {
   constructor(baseUrl) {
     this.BASE_URL = baseUrl || 'http://localhost:5000';
+    this.socket = io(this.BASE_URL);
   }
 
   async uploadFile(filePath, file) {
@@ -39,6 +43,7 @@ export default class FileAPI {
       throw error;
     }
   }
+
   async renameFile(filePath, newFilename) {
     try {
       const formData = new FormData();
@@ -114,7 +119,6 @@ export default class FileAPI {
     }
   }
 
-
   async deleteFolder(projectId, folderId) {
     try {
       const response = await axios.delete(`${this.BASE_URL}/delete-folder/${projectId}/${folderId}`);
@@ -122,5 +126,19 @@ export default class FileAPI {
     } catch (error) {
       throw error;
     }
+  }
+
+  async executeCommand(command, folderPath) {
+    try {
+      this.socket.emit('execute_command', { command, folderPath });
+    } catch (error) {
+      throw error;
+    }
+  }
+  setupEventListeners(cb) {
+    this.socket.on('console_output', cb ?? this.log);
+  }
+  log(msg) {
+    console.log(msg);
   }
 }
