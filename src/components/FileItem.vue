@@ -63,6 +63,7 @@ const handleSelectFile = () => {
     store.selectPath(props.file.path)
     store.selectFile(props.file)
   }
+  store.currentTab = 0
 }
 const fileName = ref(props.file.name)
 const handleRenameFile = async () => {
