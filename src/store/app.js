@@ -1,5 +1,5 @@
-import { onMounted, onUnmounted, ref, toRaw, watch } from 'vue'
-import { Scenario, FileAPI, IDGenerator, FileModel } from '@/utils'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { FileAPI, IDGenerator, FileModel } from '@/utils'
 import { defineStore } from 'pinia'
 
 const client = new FileAPI()
@@ -7,14 +7,18 @@ const idGenerator = new IDGenerator();
 const projectKey = "mx_scenario_sim_project_id"
 
 export const useAppStore = defineStore('app', () => {
+
   const files = ref([])
   const error = ref(null)
   const loading = ref(true)
+  const editorCode = ref("")
+  const currentTab = ref(0)
   const tempFile = ref(null)
   const rootPath = ref(null)
   const selectedPath = ref(null)
   const selectedFile = ref(null)
   const logs = ref([])
+
   onMounted(async () => {
     const projectId = await createProjectIfNotExists();
     if (projectId) {
@@ -25,23 +29,24 @@ export const useAppStore = defineStore('app', () => {
       selectedPath.value = `projects/${projectId}`
       const serverFiles = await client.getFiles(projectId)
       files.value = processFiles(serverFiles)
-      console.log(files.value);
       client.setupEventListeners(addLog)
     } else {
-      // Manejar el caso de error
     }
-    console.log(files.value);
     loading.value = false
 
   })
+
   onUnmounted(() => {
     client.removeEventListeners()
   })
+
   const selectPath = (path) => {
     selectedPath.value = path
   }
   const selectFile = (file) => {
     selectedFile.value = file
+    editorCode.value = typeof file.content !== 'string' ? JSON.stringify(file.content, null, 4) : file.content
+
   }
   const refetchFiles = async () => {
     files.value = []
@@ -61,18 +66,23 @@ export const useAppStore = defineStore('app', () => {
     await client.deleteFile(path, fileName)
     await refetchFiles()
   }
-  const newFolder = async () => {
+  const newFolder = async (name, root) => {
     try {
-      await client.createFolder(selectedPath.value, `new-folder-${files.value.length + 1}`)
+      await client.createFolder(root ? rootPath.value : selectedPath.value, name ? name : `new-folder-${files.value.length + 1}`)
       await refetchFiles()
     } catch (error) {
 
     }
   }
-  const newFile = async (extension) => {
+  const newFile = async (extension, name, content) => {
     console.log('arre', extension);
     try {
-      const file = new FileModel({ name: `new-file-${files.value.length + 1}.${extension}`, is_folder: false, extension })
+      const file = new FileModel({
+        name: name ? name : `new-file-${files.value.length + 1}.${extension}`,
+        is_folder: false,
+        extension,
+        content: content
+      })
       await client.uploadFile(selectedPath.value, file)
       await refetchFiles()
     } catch (error) {
@@ -80,8 +90,10 @@ export const useAppStore = defineStore('app', () => {
     }
   }
   const uploadFile = async (filePath, file) => {
-    console.log(filePath, file);
     try {
+      if (typeof file.content !== 'string') {
+        file.content = JSON.stringify(file.content, null, 4)
+      }
       await client.uploadFile(filePath, file)
     } catch (error) {
     }
@@ -93,42 +105,14 @@ export const useAppStore = defineStore('app', () => {
     logs.value.push(m)
   }
   const clearLogs = () => logs.value = []
-  // -------------------------------------
-  const selectedScenario = ref(undefined)
-  const scenarios = ref([])
-
-  const addScenario = async (name, content) => {
-    try {
-      const newFile = createFile(name, content)
-      await client.uploadFile(newFile)
-      const scenario = new Scenario({ name, ...content })
-      scenarios.value.push(scenario)
-
-    } catch (e) {
-      error.value = "Has ocurred an error :("
-    } finally {
-      loading.value = false
-    }
-  }
-
-  const editScenarioName = (index, newName) => {
-    if (index >= 0 && index < scenarios.value.length) {
-      scenarios.value[index].name = newName
-    }
-  }
-  const resetScenarios = () => scenarios.value = []
-  const deleteScenario = (index) => {
-    scenarios.value = scenarios.value.map(v => toRaw(v)).filter((_, i) => i !== index)
-  }
-  const selectScenario = (index) => selectedScenario.value = scenarios.value[index]
-
 
   return {
     files,
-    scenarios,
     newFolder,
     addFile,
     logs,
+    editorCode,
+    currentTab,
     clearLogs,
     selectFile,
     selectedFile,
@@ -139,14 +123,7 @@ export const useAppStore = defineStore('app', () => {
     selectPath,
     newFile,
     renameFile,
-    executeCommand,
-    //--------
-    addScenario,
-    editScenarioName,
-    deleteScenario,
-    selectScenario,
-    selectedScenario,
-    resetScenarios,
+    executeCommand
   }
 })
 
