@@ -13,6 +13,7 @@ import LogForm from './LogForm.vue'
 import Sidenav from './layout/Sidenav.vue'
 import Header from './layout/Header.vue'
 import Layout from './layout/Layout.vue'
+import Console from './Console.vue'
 
 export {
   ScenarioItem,
@@ -29,5 +30,6 @@ export {
   LogForm,
   FileItem,
   FileList,
-  ScenarioEditor
+  ScenarioEditor,
+  Console
 }
