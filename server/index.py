@@ -25,7 +25,7 @@ def single_execution(route_func):
     def wrapper(*args, **kwargs):
         if execute_lock.locked():
             socketio.emit('console_output',
-                          "The server is busy, please try again later.")
+                          "PENDING The server is busy, your request has been equeded, please wait...")
         with execute_lock:
             return route_func(*args, **kwargs)
     return wrapper
@@ -174,6 +174,7 @@ def execute_command(data):
     original_directory = os.getcwd()
     os.chdir(folder_path)
     try:
+        emit('console_output', command)
         process = subprocess.Popen(
             command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         for line in process.stdout:
