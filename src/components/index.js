@@ -3,6 +3,7 @@ import StepForm from './StepForm.vue'
 import StepList from './StepList.vue'
 import CodeEditor from './CodeEditor.vue'
 import ScenarioManager from './ScenarioManager.vue'
+import ScenarioEditor from './ScenarioEditor.vue'
 import AccountForm from './AccountForm.vue'
 import TransactionForm from './TransactionForm.vue'
 import ExpectForm from './ExpectForm.vue'
@@ -28,4 +29,5 @@ export {
   LogForm,
   FileItem,
   FileList,
+  ScenarioEditor
 }
