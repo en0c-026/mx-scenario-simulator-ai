@@ -15,17 +15,7 @@
             <ScenarioManager />
           </v-window-item>
           <v-window-item value="three" class="h-75 bg-error">
-            <v-sheet class="pa-10">
-              <p class="text-body-1 mb-2">Available Commands:</p>
-              <v-btn elevation="1" @click="store.clearLogs()">clear</v-btn>
-              <v-btn elevation="1" @click="store.executeCommand('mxpy contract build')">build</v-btn>
-              <v-btn elevation="1" @click="store.executeCommand('mxpy contract test')">test</v-btn>
-            </v-sheet>
-            <v-sheet color="grey-darken-4 overflow-y-auto pa-2 pb-12 h-100">
-              <p v-for="log in store.logs">
-                {{ log }}
-              </p>
-            </v-sheet>
+            <Console />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -35,7 +25,6 @@
 
 <script setup>
 import { useAppStore } from "@/store/app";
-import { CodeEditor, ScenarioManager } from "@/components"
-import { ref } from "vue";
+import { CodeEditor, ScenarioManager, Console } from "@/components"
 const store = useAppStore();
 </script>
