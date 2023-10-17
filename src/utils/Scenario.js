@@ -3,9 +3,10 @@ import Step from "./Step";
 
 export default class Scenario {
 
-  constructor(name) {
-    this.name = name;
-    this.steps = [];
+  constructor(scenario) {
+    this.name = scenario.name ?? "";
+    this.description = scenario.description ?? "";
+    this.steps = scenario.steps ?? [];
   }
 
   addStep(type) {

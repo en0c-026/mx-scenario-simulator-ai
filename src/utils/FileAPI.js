@@ -138,6 +138,10 @@ export default class FileAPI {
   setupEventListeners(cb) {
     this.socket.on('console_output', cb ?? this.log);
   }
+  removeEventListeners() {
+    this.socket.off('console_output');
+  }
+
   log(msg) {
     console.log(msg);
   }

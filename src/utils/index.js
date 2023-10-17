@@ -7,6 +7,9 @@ import Log from "./Log";
 import FileAPI from "./FileAPI";
 import IDGenerator from "./IDGenerator";
 import FileModel from "./FileModel";
+import BlockInfo from "./BlockInfo";
+import Expect from "./Expect";
+import Transaction from "./Transaction";
 
 export {
   FileAPI,
@@ -16,5 +19,8 @@ export {
   Account,
   NewAddress,
   Log,
-  FileModel
+  FileModel,
+  BlockInfo,
+  Expect,
+    Transaction
 }
