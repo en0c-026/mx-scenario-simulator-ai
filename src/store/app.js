@@ -18,7 +18,7 @@ export const useAppStore = defineStore('app', () => {
   const selectedPath = ref(null)
   const selectedFile = ref(null)
   const logs = ref([])
-
+  const refechLoading = ref(false)
   onMounted(async () => {
     const projectId = await createProjectIfNotExists();
     if (projectId) {
@@ -49,10 +49,12 @@ export const useAppStore = defineStore('app', () => {
 
   }
   const refetchFiles = async () => {
+    refechLoading.value = true
     files.value = []
     const projectId = idGenerator.get(projectKey)
     const serverFiles = await client.getFiles(projectId)
     files.value = processFiles(serverFiles)
+    refechLoading.value = false
   }
   const addFile = (isFolder) => {
     tempFile.value = new FileModel(isFolder)
@@ -112,6 +114,7 @@ export const useAppStore = defineStore('app', () => {
     addFile,
     logs,
     editorCode,
+    refechLoading,
     currentTab,
     clearLogs,
     selectFile,
