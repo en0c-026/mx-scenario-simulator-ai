@@ -14,9 +14,9 @@
 
 <script setup>
 import { useAppStore } from '@/store/app';
-import { nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 const store = useAppStore();
-
+const consoleRef = ref(null)
 const getLogColor = (log) => {
   let logClass
   if (log.startsWith('ERROR')) {

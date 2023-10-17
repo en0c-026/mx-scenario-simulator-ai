@@ -15,7 +15,7 @@
             <ScenarioManager />
           </v-window-item>
           <v-window-item value="three" class="h-75 bg-error">
-            <Console />
+            <Run />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -25,6 +25,6 @@
 
 <script setup>
 import { useAppStore } from "@/store/app";
-import { CodeEditor, ScenarioManager, Console } from "@/components"
+import { CodeEditor, ScenarioManager, Run } from "@/components"
 const store = useAppStore();
 </script>
