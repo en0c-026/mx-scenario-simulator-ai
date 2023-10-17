@@ -7,8 +7,8 @@
     <v-btn @click="store.newFolder('scenarios', true)">create</v-btn>
   </v-sheet>
   <v-container v-else class="fill-height pa-0" fluid>
-    <v-row class="h-100" no-gutters justify="center">
-      <v-col cols="12" lg="3" xl="2" class="py-2 px-4 px-lg-0 d-flex justify-center">
+    <v-row class="h-100" no-gutters>
+      <v-col cols="12" lg="3" xl="2" class="px-lg-0 d-flex justify-center">
         <v-list class="pa-0 w-100" max-width="868px">
           <v-list-item title="Scenarios">
             <template v-slot:append>
