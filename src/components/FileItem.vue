@@ -5,8 +5,8 @@
         <v-text-field :hide-details="!showDetails" @click:control="handleSelectFile" variant="plain" class="px-2"
           v-model="fileName" :readonly="!file.editing" :focused="file.editing">
           <template v-slot:prepend-inner>
-            <v-icon v-if="file.is_folder" @click="file.toggleFolder()" size="small" :icon="!file.open ? 'mdi-chevron-right' : 'mdi-chevron-down'"
-              class="my-auto"></v-icon>
+            <v-icon v-if="file.is_folder" @click="file.toggleFolder()" size="small"
+              :icon="!file.open ? 'mdi-chevron-right' : 'mdi-chevron-down'" class="my-auto"></v-icon>
           </template>
           <template v-slot:details>
             <div class="w-100">
@@ -62,8 +62,8 @@ const handleSelectFile = () => {
   } else {
     store.selectPath(props.file.path)
     store.selectFile(props.file)
+    store.currentTab = 0
   }
-  store.currentTab = 0
 }
 const fileName = ref(props.file.name)
 const handleRenameFile = async () => {
