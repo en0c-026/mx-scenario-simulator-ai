@@ -30,9 +30,9 @@
             <p class="text-h6">Manage</p>
             <p class="subtitle-1 mb-4">{{ selectedScenarioFile.name }}</p>
             <v-form class="mb-4">
-              <v-text-field rounded="0" class="mb-2" variant="outlined" label="Name"
+              <v-text-field class="mb-2"  label="Name"
                 v-model="selectedScenarioFile.content.name" @update:focused="saveSelectedScenario"></v-text-field>
-              <v-text-field rounded="0" variant="outlined" label="Description"
+              <v-text-field  label="Description"
                 v-model="selectedScenarioFile.content.description" @update:focused="saveSelectedScenario"></v-text-field>
             </v-form>
             <v-list-item class="px-2">
