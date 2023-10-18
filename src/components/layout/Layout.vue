@@ -4,7 +4,7 @@
   </v-sheet>
   <v-layout v-else class="rounded rounded-md">
     <Header />
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer v-model="store.showSidenav">
       <Sidenav />
     </v-navigation-drawer>
     <v-main style="height: 100vh;">
