@@ -9,9 +9,10 @@ import threading
 import tempfile
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://scenariomx.xyz"}})
+CORS(app, resources={r"/api/*": {"origins": ["http://scenariomx.xyz", "http://54.85.162.223"]}})
 
-socketio = SocketIO(app, cors_allowed_origins="http://scenariomx.xyz")
+socketio = SocketIO(app, cors_allowed_origins=[
+                    "http://scenariomx.xyz", "http://54.85.162.223"])
 UPLOAD_FOLDER = 'projects'
 ALLOWED_EXTENSIONS = {'json', 'rust'}
 ALLOWED_COMMANDS = ['ls', 'pwd', 'echo', 'mxpy']
