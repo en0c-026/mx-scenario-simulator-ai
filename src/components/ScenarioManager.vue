@@ -2,13 +2,14 @@
   <v-sheet v-if="!scenariosFolder || store.refechLoading" class="d-flex w-100 h-75">
     <v-progress-circular class="ma-auto" size="40" indeterminate></v-progress-circular>
   </v-sheet>
-  <v-sheet v-else-if="!scenariosFolder.exists && !store.refechLoading" class="d-flex flex-column align-center justify-center w-100 h-75">
+  <v-sheet v-else-if="!scenariosFolder.exists && !store.refechLoading"
+    class="d-flex flex-column align-center justify-center w-100 h-75">
     <p class="mb-2">The scenarios folder does not exist, please create it.</p>
-        <v-btn @click="store.newFolder('scenarios', true)">create</v-btn>
+    <v-btn @click="store.newFolder('scenarios', true)" color="info">create</v-btn>
   </v-sheet>
   <v-container v-else class="fill-height pa-0 overflow-y-auto" fluid>
     <v-row class="h-100" no-gutters>
-      <v-col cols="12" lg="3" xl="2" class="px-lg-0 d-flex justify-center">
+      <v-col cols="12" md="3" xl="2" class="px-lg-0 d-flex justify-center">
         <v-list class="pa-0 w-100" max-width="868px">
           <v-list-item title="Scenarios">
             <template v-slot:append>
@@ -30,12 +31,12 @@
             <p class="text-h6">Manage</p>
             <p class="subtitle-1 mb-4">{{ selectedScenarioFile.name }}</p>
             <v-form class="mb-4">
-              <v-text-field class="mb-2"  label="Name"
-                v-model="selectedScenarioFile.content.name" @update:focused="saveSelectedScenario"></v-text-field>
-              <v-text-field  label="Description"
-                v-model="selectedScenarioFile.content.description" @update:focused="saveSelectedScenario"></v-text-field>
+              <v-text-field class="mb-2" label="Name" v-model="selectedScenarioFile.content.name"
+                @update:focused="saveSelectedScenario"></v-text-field>
+              <v-text-field label="Description" v-model="selectedScenarioFile.content.description"
+                @update:focused="saveSelectedScenario"></v-text-field>
             </v-form>
-            <v-list-item class="px-2">
+            <v-list-item class="px-0">
               <template v-slot:title>
                 <p class="text-h6">Steps</p>
               </template>
