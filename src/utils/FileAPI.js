@@ -62,8 +62,9 @@ export default class FileAPI {
   }
 
   async getFiles(projectId, folderId) {
+    console.log('from getFiles(projectId, folderId)', projectId, folderId);
     try {
-      const filePath = folderId ? `${projectId}/$${folderId}` : projectId
+      const filePath = folderId ? `${projectId}/${folderId}` : projectId
       const response = await axios.get(`${this.BASE_URL}/files/${filePath}`);
       return response.data.files;
     } catch (error) {
@@ -145,4 +146,28 @@ export default class FileAPI {
   log(msg) {
     console.log(msg);
   }
+
+  async downloadFolder(filePath) {
+    try {
+      const response = await axios.get(`${this.BASE_URL}/download-folder/${filePath}`, {
+        responseType: 'blob', 
+      });
+
+      const blob = response.data;
+      const fileName = 'project.zip';
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(blobUrl);
+      a.remove();
+
+      return { message: 'Descarga de carpeta exitosa' };
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
