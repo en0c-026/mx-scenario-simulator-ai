@@ -1,11 +1,12 @@
 # servidor.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import os
 from flask_cors import CORS
 import shutil
 from flask_socketio import SocketIO, emit
 import subprocess
 import threading
+import tempfile
 
 app = Flask(__name__)
 CORS(app)
@@ -36,7 +37,7 @@ def home():
 
 
 @app.route('/files/<project_id>')
-@app.route('/files/<project_id>/<folder_id>')
+@app.route('/files/<path:project_id>/<folder_id>')
 def list_project_files(project_id, folder_id=None):
     def list_files_recursively(folder_path):
         file_data = []
@@ -64,10 +65,8 @@ def list_project_files(project_id, folder_id=None):
         return file_data
 
     project_folder = os.path.join(app.config['UPLOAD_FOLDER'], project_id)
-
     if folder_id:
         project_folder = os.path.join(project_folder, folder_id)
-
     file_data = list_files_recursively(project_folder)
 
     return jsonify({"files": file_data})
@@ -172,6 +171,9 @@ def execute_command(data):
         return
 
     original_directory = os.getcwd()
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
+
     os.chdir(folder_path)
     try:
         emit('console_output', command)
@@ -184,6 +186,26 @@ def execute_command(data):
     finally:
         os.chdir(original_directory)
 
+
+@app.route('/download-folder/<path:folder_path>', methods=['GET'])
+def download_folder(folder_path):
+    if not os.path.exists(folder_path):
+        return jsonify({"error": "La carpeta no existe"}), 404
+
+    temp_dir = tempfile.mkdtemp()
+    temp_zip_file = os.path.join(temp_dir, 'project.zip')
+    print(temp_zip_file)
+    try:
+        shutil.make_archive(temp_zip_file[:-4], 'zip', folder_path)
+    except Exception as e:
+        return jsonify({"error": f"No se pudo comprimir la carpeta: {str(e)}"}), 500
+
+    try:
+        return send_file(temp_zip_file, as_attachment=True)
+    except Exception as e:
+        return jsonify({"error": f"No se pudo enviar el archivo ZIP: {str(e)}"}), 500
+    finally:
+        shutil.rmtree(temp_dir)
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
