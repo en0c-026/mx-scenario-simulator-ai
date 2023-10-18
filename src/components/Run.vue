@@ -2,8 +2,8 @@
   <v-sheet class="pa-10">
     <p class="text-body-1 mb-2">Available Commands:</p>
     <v-btn elevation="1" @click="store.clearLogs()">clear</v-btn>
-    <v-btn elevation="1" @click="store.executeCommand('mxpy contract build')">build</v-btn>
-    <v-btn elevation="1" @click="store.executeCommand('mxpy contract test')">test</v-btn>
+    <v-btn elevation="1" @click="store.executeCommand('mxpy contract build', store.projectPath)">build</v-btn>
+    <v-btn elevation="1" @click="store.executeCommand('mxpy contract test', store.projectPath)">test</v-btn>
   </v-sheet>
   <div ref="consoleRef" @vnode-updated="scrollToBottom" class="bg-grey-darken-4 overflow-y-auto pt-2 px-4 pb-12 h-100">
     <p v-for="log in store.logs" :class="getLogColor(log)">
