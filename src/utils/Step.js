@@ -9,7 +9,7 @@ import {
 
 const getDefaultState = () => {
   return {
-    externalStep: (step) => ({
+    externalSteps: (step) => ({
       path: step?.path ?? "",
     }),
     setState: (step) => {

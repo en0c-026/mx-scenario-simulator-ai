@@ -10,6 +10,7 @@ import FileModel from "./FileModel";
 import BlockInfo from "./BlockInfo";
 import Expect from "./Expect";
 import Transaction from "./Transaction";
+import AIHelper from "./AIHelper";
 
 export {
   FileAPI,
@@ -22,5 +23,6 @@ export {
   FileModel,
   BlockInfo,
   Expect,
-    Transaction
+  Transaction,
+  AIHelper
 }

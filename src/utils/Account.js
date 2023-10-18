@@ -29,7 +29,6 @@ export default class Account {
     delete this.esdt[key]
   }
   addStorageEntry(key, value) {
-    console.log('from addStorage', key ,value);
     this.storage[key.startsWith('str') ? key : `str:${key}`] = value
   }
   removeStorageEntry(key) {
