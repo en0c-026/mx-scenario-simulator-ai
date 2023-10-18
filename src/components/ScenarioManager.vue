@@ -6,7 +6,7 @@
     <p class="mb-2">The scenarios folder does not exist, please create it.</p>
         <v-btn @click="store.newFolder('scenarios', true)">create</v-btn>
   </v-sheet>
-  <v-container v-else class="fill-height pa-0" fluid>
+  <v-container v-else class="fill-height pa-0 overflow-y-auto" fluid>
     <v-row class="h-100" no-gutters>
       <v-col cols="12" lg="3" xl="2" class="px-lg-0 d-flex justify-center">
         <v-list class="pa-0 w-100" max-width="868px">
@@ -22,8 +22,8 @@
             :index="i" :scenarioFile="scenarioFile" />
         </v-list>
       </v-col>
-      <v-col class="bg-grey-lighten-4 py-2 px-4">
-        <v-container class="px-lg-16 d-flex h-100">
+      <v-col class="bg-grey-lighten-4 py-2 px-4 ">
+        <v-container class="px-lg-16 d-flex h-100  ">
           <p class="ma-auto" v-if="!scenariosFolder.list.length > 0">Please create a Scenario!</p>
           <p class="ma-auto" v-else-if="!selectedScenarioFile">Please select a Scenario!</p>
           <div v-else class="w-100 ">
