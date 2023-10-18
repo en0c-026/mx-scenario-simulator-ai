@@ -14,6 +14,7 @@ import Sidenav from './layout/Sidenav.vue'
 import Header from './layout/Header.vue'
 import Layout from './layout/Layout.vue'
 import Run from './Run.vue'
+import StudioHome from './StudioHome.vue'
 
 export {
   ScenarioItem,
@@ -31,5 +32,6 @@ export {
   FileItem,
   FileList,
   ScenarioEditor,
-  Run
+  Run,
+  StudioHome
 }
