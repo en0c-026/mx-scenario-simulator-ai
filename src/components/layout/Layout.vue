@@ -16,5 +16,18 @@
 <script setup>
 import { Sidenav, Header } from '@/components'
 import { useAppStore } from "@/store/app";
+import { onMounted } from 'vue';
+import { watch } from 'vue';
+import { useDisplay } from 'vuetify/lib/framework.mjs';
 const store = useAppStore();
+const { lg } = useDisplay()
+onMounted(() => {
+  console.log('lg on mounted', lg);
+  if (lg.value) {
+    store.showSidenav = true
+  }
+})
+watch(lg, () => {
+  console.log('lg uptaded');
+})
 </script>
