@@ -21,9 +21,11 @@ const createFile = (filename, data, extension) => {
   return new File([blob], filename);
 }
 export default class FileAPI {
-  constructor(baseUrl) {
+  constructor(baseUrl, wsUrl) {
     this.BASE_URL = baseUrl || 'http://localhost:5000';
-    this.socket = io(this.BASE_URL);
+    if (wsUrl) {
+      this.socket = io(wsUrl);
+    }
   }
 
   async uploadFile(filePath, file) {
