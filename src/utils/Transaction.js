@@ -91,7 +91,6 @@ const getDefaultState = (type) => {
 
 export default class Transaction {
   constructor(type, txObj) {
-    this.step = type;
     const defaultState = getDefaultState();
     const state = defaultState[type](txObj)
     for (const key in state) {
