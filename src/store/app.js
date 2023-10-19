@@ -2,7 +2,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { FileAPI, IDGenerator, FileModel } from '@/utils'
 import { defineStore } from 'pinia'
 const serverUrl = "http://scenariomx.xyz/api/"
-const wsUrl = "ws://scenariomx.xyz/socket.io/"
+const wsUrl = "ws://scenariomx.xyz/"
 const client = new FileAPI(serverUrl, wsUrl)
 const idGenerator = new IDGenerator();
 const projectKey = "mx_scenario_sim_project_id"
