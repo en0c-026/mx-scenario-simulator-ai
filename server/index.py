@@ -9,7 +9,7 @@ import threading
 import tempfile
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": ["http://scenariomx.xyz", "http://54.85.162.223"]}})
+CORS(app)
 
 socketio = SocketIO(app, cors_allowed_origins=[
                     "http://scenariomx.xyz", "http://54.85.162.223"])
