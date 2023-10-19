@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 socketio = SocketIO(app, cors_allowed_origins=[
-                    "http://scenariomx.xyz", "http://54.85.162.223"])
+                    "http://scenariomx.xyz", "http://localhost:3000"])
 UPLOAD_FOLDER = 'projects'
 ALLOWED_EXTENSIONS = {'json', 'rust'}
 ALLOWED_COMMANDS = ['ls', 'pwd', 'echo', 'mxpy']
@@ -46,7 +46,6 @@ def list_project_files(project_id, folder_id=None):
             file_path = os.path.join(folder_path, filename)
             if os.path.isfile(file_path):
                 if filename.endswith('.wasm'):
-                    # Si el archivo es un archivo Wasm, establece content en una cadena vacía
                     content = ""
                 else:
                     try:
@@ -58,9 +57,8 @@ def list_project_files(project_id, folder_id=None):
                 file_data.append(
                     {"name": filename, "content": content, "path": folder_path, "extension": filename.split('.')[-1]})
             elif os.path.isdir(file_path):
-                if filename == "wasm" or filename == "meta":
+                if filename == "output" or filename == "target":
                     continue
-                # Si es una carpeta, llama a la función recursivamente para listar sus contenidos
                 file_data.append({"name": filename, "is_folder": True,
                                  "path": folder_path, "content": list_files_recursively(file_path)})
         return file_data
@@ -166,7 +164,6 @@ def execute_command(data):
     command = data['command']
     folder_path = data['folderPath']
 
-    # Verify if the command is in the list of allowed commands
     if command.split(' ')[0] not in ALLOWED_COMMANDS:
         emit('console_output', "Command not allowed")
         return
@@ -177,7 +174,7 @@ def execute_command(data):
 
     os.chdir(folder_path)
     try:
-        emit('console_output', command)
+        emit('console_output', 'scenariomx-studio$ ' + command)
         process = subprocess.Popen(
             command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         for line in process.stdout:
