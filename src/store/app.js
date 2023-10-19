@@ -2,7 +2,8 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { FileAPI, IDGenerator, FileModel } from '@/utils'
 import { defineStore } from 'pinia'
 const serverUrl = "http://scenariomx.xyz/api/"
-const client = new FileAPI(serverUrl)
+const wsUrl = "ws://scenariomx.xyz/socket.io/"
+const client = new FileAPI(serverUrl, wsUrl)
 const idGenerator = new IDGenerator();
 const projectKey = "mx_scenario_sim_project_id"
 
@@ -126,7 +127,7 @@ export const useAppStore = defineStore('app', () => {
     logs.value.push(m)
     const projectCreatedRegex = /Project created/
 
-    if (m.startsWith("CRITICAL")) {
+    if (m.startsWith("CRITICAL") || m.startsWith("ERROR")) {
       loading.value = false
       refechLoading.value = false
       error.value = m
