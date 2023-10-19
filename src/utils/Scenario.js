@@ -5,7 +5,6 @@ export default class Scenario {
 
   constructor(scenario) {
     this.name = scenario.name ?? "";
-    this.description = scenario.description ?? "";
     this.steps = scenario.steps ?? [];
   }
 

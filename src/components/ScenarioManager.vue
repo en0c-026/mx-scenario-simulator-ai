@@ -33,8 +33,6 @@
             <v-form class="mb-4">
               <v-text-field class="mb-2" label="Name" v-model="selectedScenarioFile.content.name"
                 @update:focused="saveSelectedScenario"></v-text-field>
-              <v-text-field label="Description" v-model="selectedScenarioFile.content.description"
-                @update:focused="saveSelectedScenario"></v-text-field>
             </v-form>
             <v-list-item class="px-0">
               <template v-slot:title>
