@@ -12,8 +12,8 @@
     </v-card>
     <v-card border rounded="0" width="420px" class="py-4 px-1 mt-2" title="Latest Projects">
       <v-card-text class="py-2">
-        <p v-if="!store.latestProjects.length > 0" class="subtitle-2 text-center my-4">No projects found. Please create
-          one</p>
+        <p v-if="!store.latestProjects.length > 0" class="text-caption text-grey-darken-3 text-center my-4">No projects found, please create
+          one.</p>
         <v-list-item border class="px-2" v-for="latestProject in store.latestProjects" :title="latestProject"
           @click="store.selectProjectPath(latestProject)">
         </v-list-item>

@@ -19,7 +19,7 @@
       </template>
     </v-list-item>
     <v-divider></v-divider>
-    <p v-if="!store.projectPath" class="text-subtitle-2 my-auto text-center">No project selected.</p>
+    <p v-if="!store.projectPath" class="text-caption text-grey-darken-3 my-auto text-center">No project selected.</p>
     <FileItem v-for="file, i in store.files" :key="i" :file="file" />
   </v-sheet>
 </template>
