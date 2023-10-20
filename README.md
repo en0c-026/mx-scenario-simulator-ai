@@ -4,6 +4,10 @@
 
 ScenarioMX Studio is your all-in-one toolkit for crafting, testing, and efficiently managing smart contract projects on the MultiversX network. Tailored for developers, this dynamic platform streamlines the smart contract development process, ensuring seamless creation, comprehensive testing, and effective project management
 
+## Documentation
+
+Please visit (docs.scenariomx.xyz)[docs.scenariomx.xyz]
+
 ## Installation
 
 Follow these steps to set up ScenarioMx Studio on your local machine:
