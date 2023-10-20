@@ -6,7 +6,7 @@ ScenarioMX Studio is your all-in-one toolkit for crafting, testing, and efficien
 
 ## Documentation
 
-Please visit [docs.scenariomx.xyz](docs.scenariomx.xyz)
+Please visit [docs.scenariomx.xyz](http://docs.scenariomx.xyz)
 
 ## Installation
 
