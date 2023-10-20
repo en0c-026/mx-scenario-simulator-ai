@@ -1,7 +1,7 @@
 <template>
   <v-sheet class="pa-10">
     <p class="text-body-1 mb-2">Available Commands:</p>
-    <v-btn elevation="1" @click="store.clearLogs()">clear</v-btn>
+    <v-btn elevation="1" @click="store.clearLogs()">clean</v-btn>
     <v-btn elevation="1" @click="store.executeCommand('mxpy contract build', store.projectPath)">build</v-btn>
     <v-btn elevation="1" @click="store.executeCommand('mxpy contract test', store.projectPath)">test</v-btn>
   </v-sheet>
