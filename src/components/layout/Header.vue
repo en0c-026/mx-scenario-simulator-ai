@@ -4,6 +4,11 @@
       <template v-slot:title>
         <v-img src="/scenario-mx-studio-logo-2.png" width="250px"></v-img>
       </template>
+      <template v-slot:append>
+        <v-btn prepend-icon="mdi-file-document-outline" text="Docs" href="http://docs.scenariomx.xyz"></v-btn>
+        <v-btn prepend-icon="mdi-github" text="Github" href="https://github.com/en0c-026/scenario-mx-studio"></v-btn>
+
+      </template>
     </v-app-bar>
 </template>
 
